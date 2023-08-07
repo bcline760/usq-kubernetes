@@ -1,12 +1,7 @@
-module "search_namespace" {
-  source = "../_modules/namespace"
-  name   = "usq-search"
-}
-
 module "elastic_search_data_volume" {
   source    = "../_modules/volume"
   name      = local.es_volume_name
-  namespace = module.search_namespace.namespace.metadata.0.name
+  namespace = var.namespace
 
   access_modes       = ["ReadWriteOnce"]
   storage_class_name = "local-path"
@@ -20,7 +15,7 @@ module "elastic_search_data_volume" {
 module "elastic_search_network_policy" {
   source    = "../_modules/network-policy"
   name      = local.es_network_policy_name
-  namespace = module.search_namespace.namespace.metadata.0.name
+  namespace = var.namespace
 
   pod_selector = {
     app = local.es_deployment_name
@@ -44,7 +39,7 @@ module "elastic_search_network_policy" {
 module "elastic_search_service" {
   source    = "../_modules/service"
   name      = local.es_service_name
-  namespace = module.search_namespace.namespace.metadata.0.name
+  namespace = var.namespace
 
   type = "ClusterIP"
 
@@ -61,7 +56,7 @@ module "elastic_search_service" {
 module "elastic_search" {
   source    = "../_modules/deployment"
   name      = local.es_deployment_name
-  namespace = module.search_namespace.namespace.metadata.0.name
+  namespace = var.namespace
 
   labels = {
     app = local.es_deployment_name
@@ -98,7 +93,7 @@ module "elastic_search" {
 module "elastic_search_ingress" {
   source    = "../_modules/ingress"
   name      = local.es_ingress_name
-  namespace = module.search_namespace.namespace.metadata.0.name
+  namespace = var.namespace
 
   annotations = {
     "ingress.kubernetes.io/ssl-redirect" = "false"

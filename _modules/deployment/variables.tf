@@ -100,6 +100,25 @@ variable "containers" {
       }))
     }))
 
+    resources = object({
+      limits   = map(string)
+      requests = map(string)
+    })
+
+    security_context = optional(object({
+      allow_privilege_escalation = optional(bool)
+      privileged                 = optional(bool)
+      read_only_root_filesystem  = optional(bool)
+      run_as_group               = optional(string)
+      run_as_non_root            = optional(bool)
+      run_as_user                = optional(string)
+
+      capabilities = optional(object({
+        add  = optional(list(string))
+        drop = optional(list(string))
+      }))
+    }))
+
     volume_mounts = optional(list(object({
       mount_path        = string
       mount_propagation = optional(string)

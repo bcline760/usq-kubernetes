@@ -24,6 +24,31 @@ resource "kubernetes_deployment_v1" "deployment" {
             image             = container.value.image
             image_pull_policy = container.value.image_pull_policy
 
+            resources {
+              limits   = container.value.limits
+              requests = container.value.requests
+            }
+
+            dynamic "security_context" {
+              for_each = container.value.security_context != null ? [container.value.security_context] : []
+              content {
+                allow_privilege_escalation = security_context.value.allow_privilege_escalation
+                privileged                 = security_context.value.privileged
+                read_only_root_filesystem  = security_context.value.read_only_root_filesystem
+                run_as_group               = security_context.value.run_as_group
+                run_as_non_root            = security_context.value.run_as_non_root
+                run_as_user                = security_context.value.run_as_user
+
+                dynamic "capabilities" {
+                  for_each = security_context.value.capabilities != null ? [security_context.value.capabilities] : []
+                  content {
+                    add  = capabilities.value.add
+                    drop = capabilities.value.drop
+                  }
+                }
+              }
+            }
+
             dynamic "env" {
               for_each = container.value.env != null ? container.value.env : []
               content {

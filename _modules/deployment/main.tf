@@ -25,8 +25,8 @@ resource "kubernetes_deployment_v1" "deployment" {
             image_pull_policy = container.value.image_pull_policy
 
             resources {
-              limits   = container.value.limits
-              requests = container.value.requests
+              limits   = container.value.resource_limits
+              requests = container.value.resource_requests
             }
 
             dynamic "security_context" {

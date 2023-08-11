@@ -1,11 +1,13 @@
 variable "containers" {
   type = list(object({
+    name              = string
     command           = optional(list(string))
     command_args      = optional(list(string))
     image             = string
     image_pull_policy = optional(string)
-    name              = string
     port              = optional(number)
+    resource_limits   = map(string)
+    resource_requests = map(string)
 
     env = optional(list(object({
       name  = string
@@ -100,11 +102,6 @@ variable "containers" {
       }))
     }))
 
-    resources = object({
-      limits   = map(string)
-      requests = map(string)
-    })
-
     security_context = optional(object({
       allow_privilege_escalation = optional(bool)
       privileged                 = optional(bool)
@@ -150,5 +147,5 @@ variable "volumes" {
     }))
   }))
 
-  default = null
+  default = []
 }

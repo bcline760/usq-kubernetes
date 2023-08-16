@@ -12,30 +12,6 @@ module "kibana_data_volume" {
   }
 }
 
-module "kibana_network_policy" {
-  source    = "../_modules/network-policy"
-  name      = local.kibana_network_policy_name
-  namespace = var.namespace
-
-  pod_selector = {
-    app = local.kibana_deployment_name
-  }
-
-  ports = {
-    egress = [{
-      port     = 80
-      protocol = "TCP"
-      }, {
-      port     = 443
-      protocol = "TCP"
-    }]
-    ingress = [{
-      port     = 5601
-      protocol = "TCP"
-    }]
-  }
-}
-
 module "kibana_service" {
   source    = "../_modules/service"
   name      = local.kibana_service_name
@@ -97,6 +73,16 @@ module "kibana" {
     ports = [{
       container_port = 9200
     }]
+
+    resource_limits = {
+      cpu    = "500m"
+      memory = "1Gi"
+    }
+
+    resource_requests = {
+      cpu    = "500m"
+      memory = "1Gi"
+    }
 
     volume_mounts = [{
       name       = "data-volume"

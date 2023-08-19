@@ -39,7 +39,7 @@ module "enterprise_search_ingress" {
   }
 
   rules = [{
-    host = "enterprise-search.unionsquared.lan"
+    host = replace(var.enterprise_search.url, "/https?:\\/\\//", "")
     paths = [{
       path = "/"
       backend = {

@@ -13,6 +13,11 @@ variable "enterprise_search" {
   })
 }
 
+variable "enterprise_search_encryption_keys" {
+  type      = list(string)
+  sensitive = true
+}
+
 variable "kibana" {
   type = object({
     external_url = string

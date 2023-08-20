@@ -112,6 +112,17 @@ resource "kubernetes_deployment_v1" "deployment" {
                     command = exec.value.command
                   }
                 }
+
+                dynamic "http_get" {
+                  for_each = liveness_probe.value.http_get != null ? [liveness_probe.value.http_get] : []
+
+                  content {
+                    host   = http_get.value.host
+                    path   = http_get.value.path
+                    port   = http_get.value.port
+                    scheme = http_get.value.scheme
+                  }
+                }
               }
             }
 

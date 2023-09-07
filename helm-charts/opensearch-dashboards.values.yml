@@ -1,0 +1,38 @@
+opensearchHosts: "http://opensearch-cluster-master:9200"
+
+ingress:
+  enabled: true
+  hosts:
+    - host: os-dashboards.unionsquared.lan
+      paths:
+        - path: /
+          backend:
+            serviceName: usq-opensearch-dashboards
+            servicePort: 5601
+
+livenessProbe:
+  tcpSocket:
+    port: 5601
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 3
+  successThreshold: 1
+  initialDelaySeconds: 10
+
+readinessProbe:
+  tcpSocket:
+    port: 5601
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 3
+  successThreshold: 1
+  initialDelaySeconds: 10
+
+startupProbe:
+  tcpSocket:
+    port: 5601
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+  successThreshold: 1
+  initialDelaySeconds: 600

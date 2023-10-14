@@ -46,7 +46,7 @@ variable "containers" {
       timeout_seconds       = optional(number)
 
       exec = optional(object({
-        command = string
+        command = list(string)
       }))
 
       grpc = optional(object({
@@ -141,6 +141,16 @@ variable "namespace" {
 variable "volumes" {
   type = list(object({
     name = string
+    config_map = optional(object({
+      default_mode = optional(string)
+      items = optional(list(object({
+        key  = optional(string)
+        mode = optional(string)
+        path = optional(string)
+      })))
+      name     = optional(string)
+      optional = optional(bool)
+    }))
     persistent_volume_claim = optional(object({
       claim_name = string
       read_only  = bool

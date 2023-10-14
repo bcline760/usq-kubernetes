@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is an overview of my fake company's Kubernetes cluster constructed on three Raspberry Pies. Here, I will go over, the construction and architecture of my "Kuberry Pi" cluster. This will be less of a "how to" and more of a white paper.
+This is an overview of my fake company's Kubernetes cluster constructed on three Raspberry Pies. Here, I will go over, the construction and architecture of my "Kuberry Pi" cluster.
 
 ## Why?
 
@@ -20,6 +20,14 @@ My cluster is a three node cluster, one server, and two agents. The server is a 
 
 ### Physical
 
-The cluster is a three-node cluster running k3s on Raspberry Pi 4. Storage on each of the nodes is handled by Rancher's Local Path Provisioner which comes out-of-the-box with k3s. This storage class allows the quick creation of persistent volume claims which uses the node's local storage. There is no need to first establish a persistent volume then create claims. Local Path will create a PV and then bind to the claim. 
+<p style="text-align: center">
+    <img src="media/k8s_physical.png" alt="Physical Architecture">
+</p>
+
+The cluster is a three-node cluster running k3s on Raspberry Pi 4. Storage on each of the nodes is handled by Rancher's Local Path Provisioner which comes out-of-the-box with k3s. This storage class allows the quick creation of persistent volume claims which uses the node's local storage. There is no need to first establish a persistent volume then create claims. Local Path will create a PV and then bind to the claim.
 
 ### Networking
+
+The underlying `k3s` Kubernetes comes with CoreDNS for node and pod DNS resolution, Traefik Ingress controller for ingress, and Flannel for the Container Network Interface (CNI). You can configure your cluster set up to omit any of these, but I choose to have each component installed, and they have been satisfactory for my needs.
+
+I have placed my cluster within my IoT subnet, `192.168.3.0/24`, because I wish for my cluster to be able to communicate with my various IoT devices. For my load balancing needs, I use `ServiceLB` which also comes with `k3s`.

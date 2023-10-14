@@ -172,6 +172,27 @@ resource "kubernetes_deployment_v1" "deployment" {
           for_each = var.volumes
           content {
             name = volume.value.name
+
+            dynamic "config_map" {
+              for_each = volume.value.config_map != null ? [volume.value.config_map] : []
+
+              content {
+                name         = config_map.value.name
+                default_mode = config_map.value.default_mode
+                optional     = config_map.value.optional
+
+                dynamic "items" {
+                  for_each = config_map.value.items != null ? config_map.value.items : []
+
+                  content {
+                    key  = items.value.key
+                    mode = items.value.mode
+                    path = items.value.path
+                  }
+                }
+              }
+            }
+
             dynamic "persistent_volume_claim" {
               for_each = volume.value.persistent_volume_claim != null ? [volume.value.persistent_volume_claim] : []
               content {

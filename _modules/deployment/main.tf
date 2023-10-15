@@ -156,7 +156,7 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
 
             dynamic "volume_mount" {
-              for_each = container.value.volume_mounts
+              for_each = container.value.volume_mounts != null ? container.value.volume_mounts : []
               content {
                 mount_path        = volume_mount.value.mount_path
                 mount_propagation = volume_mount.value.mount_propagation
@@ -169,7 +169,7 @@ resource "kubernetes_deployment_v1" "deployment" {
         }
 
         dynamic "volume" {
-          for_each = var.volumes
+          for_each = var.volumes != null ? var.volumes : []
           content {
             name = volume.value.name
 

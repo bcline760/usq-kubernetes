@@ -1,8 +1,9 @@
 variable "name" {
   type    = string
-  default = "usq-homeassist"
+  default = "usq-ha"
 }
 
 variable "namespace" {
-  type = string
+  type    = string
+  default = "usq-homeassistant"
 }

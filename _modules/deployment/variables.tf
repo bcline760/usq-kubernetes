@@ -157,5 +157,5 @@ variable "volumes" {
     }))
   }))
 
-  default = []
+  default = null
 }

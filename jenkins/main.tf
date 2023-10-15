@@ -67,8 +67,9 @@ module "jenkins" {
   namespace = module.jenkins_namespace.namespace.metadata.0.name
 
   containers = [{
-    name  = local.jenkins_deployment_name
-    image = "jenkins/jenkins:lts-jdk11"
+    name              = local.jenkins_deployment_name
+    image             = "jenkins/jenkins:lts-jdk11"
+    image_pull_policy = "Always"
 
     env = [for k, v in local.jenkins_environment_variables : {
       name  = k

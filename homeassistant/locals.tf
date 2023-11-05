@@ -4,5 +4,7 @@ locals {
   homeassistant_service_name        = format("%s-service", var.name)
   homeassistant_network_policy_name = format("%s-netpol", var.name)
 
-  homeassistant_environment_variables = {}
+  homeassistant_environment_variables = {
+    "TZ" = "UTC"
+  }
 }

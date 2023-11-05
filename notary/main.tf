@@ -63,6 +63,10 @@ module "notary_app" {
     }
   ]
 
+  labels = {
+    "app" = "notary"
+  }
+
   volumes = [{
     name = "data-volume"
     persistent_volume_claim = {

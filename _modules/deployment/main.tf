@@ -4,6 +4,7 @@ resource "kubernetes_deployment_v1" "deployment" {
     namespace = var.namespace
     labels    = var.labels
   }
+
   spec {
     selector {
       match_labels = var.labels

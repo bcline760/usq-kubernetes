@@ -48,3 +48,11 @@ variable "rules" {
     })))
   }))
 }
+
+variable "tls" {
+  type = object({
+    hosts       = optional(list(string))
+    secret_name = optional(string)
+  })
+  default = null
+}

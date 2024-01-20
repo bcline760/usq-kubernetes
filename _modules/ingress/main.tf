@@ -2,7 +2,10 @@ resource "kubernetes_ingress_v1" "ingress" {
   metadata {
     name      = var.name
     namespace = var.namespace
+
+    annotations = var.annotations
   }
+
   spec {
     dynamic "default_backend" {
       for_each = var.default_backend != null ? [var.default_backend] : []
@@ -62,6 +65,14 @@ resource "kubernetes_ingress_v1" "ingress" {
             }
           }
         }
+      }
+    }
+
+    dynamic "tls" {
+      for_each = var.tls != null ? [var.tls] : []
+      content {
+        hosts       = tls.value.hosts
+        secret_name = tls.value.secret_name
       }
     }
   }

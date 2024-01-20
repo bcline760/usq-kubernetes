@@ -14,6 +14,6 @@ terraform {
     resource_group_name  = "unionsquared"
     storage_account_name = "usqartifacts"
     container_name       = "tfstate"
-    key                  = "mongo.tfstate"
+    key                  = "notary.tfstate"
   }
 }

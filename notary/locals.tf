@@ -8,10 +8,8 @@ locals {
 
   notary_environment_variables = {
     "ASPNETCORE_ENVIRONMENT"             = "Production"
-    "AzureAd__ClientId"                  = var.service_principal.client_id
-    "AzureAd__ClientSecret"              = var.service_principal.client_secret
-    "AzureAd__Domain"                    = var.service_principal.domain
-    "AzureAd__TenantId"                  = var.service_principal.tenant_id
+    "Auth0__ClientId"                    = var.service_principal.client_id
+    "Auth0__Domain"                      = var.service_principal.domain
     "Notary__ApplicationKey"             = var.app_key
     "Notary__Database__ConnectionString" = var.database.connection_string
     "Notary__Database__DatabaseName"     = var.database.name

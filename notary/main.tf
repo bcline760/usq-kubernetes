@@ -81,7 +81,7 @@ module "notary" {
 
   containers = [{
     name  = local.notary_deployment_name
-    image = "urbanarcher/notary-web:1.0.17"
+    image = "urbanarcher/notary-web:1.0.18"
 
     env = [for k, v in local.notary_environment_variables : {
       name  = k
